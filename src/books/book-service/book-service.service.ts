@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
+import { Connection, Model } from 'mongoose';
 import { title } from 'process';
-import { Book } from './Ibook';
+import { Book, BookDocument } from './Ibook';
 
 interface IbooksRepository {
 	createBook(book: Book);
@@ -13,8 +15,13 @@ interface IbooksRepository {
 
 @Injectable()
 export class BookService implements  IbooksRepository{
-    createBook(book: Book) {
+    constructor(
+        @InjectModel(Book.name) private BookModel:Model<BookDocument>,
+        @InjectConnection() private connection: Connection,
+    ){}
+    createBook(book: Book):BookDocument {
         this.books.push(book);
+        return <BookDocument>book;
     }
     getBook(id: string): Book {
         let book : Book|undefined = this.books.find(el => { el.id === id}); 
