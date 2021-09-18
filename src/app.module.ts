@@ -8,7 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [BookModule, 
   ConfigModule.forRoot(),  
-  MongooseModule.forRoot(process.env.DB_HOST || `mongodb+srv://netologya:netologya@cluster0.jdgs4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`)],
+  MongooseModule.forRoot(process.env.DB_HOST || `mongodb+srv://${process.env.DB_PASSWORD}:${process.env.DB_NAME}@cluster0.jdgs4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`)],
   controllers: [AppController],
   providers: [AppService],
 })
