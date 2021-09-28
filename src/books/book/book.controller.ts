@@ -10,7 +10,7 @@ import {
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
-import { AuthService } from 'src/auth/service/auth.service';
+import { AuthService } from '../../auth/service/auth.service';
 import { ExeptionsInterceptor } from '../../interceptors/exeptions.interceptor';
 import { BookService } from '../book-service/book-service.service';
 import { CreateBookDto } from '../book-service/create-book.dto';
