@@ -1,18 +1,32 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { BookController } from './book.controller';
+import * as request from 'supertest';
+import { BookModule } from './book.module';
+import { BookService } from '../book-service/book-service.service';
+import { INestApplication } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
 
 describe('BookController', () => {
   let controller: BookController;
+  let app: INestApplication;
+  let bookService = { getBooks: () => ['test'] };
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const moduleRef: TestingModule = await Test.createTestingModule({
       controllers: [BookController],
-    }).compile();
-
-    controller = module.get<BookController>(BookController);
+    })
+      .overrideProvider(BookService)
+      .useValue(bookService)
+      .compile();
+    app = moduleRef.createNestApplication();
+    await app.init();
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it(`/GET books`, () => {
+    return request(app.getHttpServer())
+      .get('/books')
+      .expect(200)
+      .expect({ data: bookService.getBooks() });
   });
+  afterAll(async () => {await app.close();});
 });
