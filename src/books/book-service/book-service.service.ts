@@ -16,7 +16,7 @@ interface IbooksRepository {
 export class BookService implements IbooksRepository {
   constructor(
     @InjectModel(Book.name) private BookModel: Model<BookDocument>,
-    @InjectConnection() private connection: Connection,
+   // @InjectConnection() private connection: Connection,
   ) {}
   createBook(book: Book): BookDocument {
     this.books.push(book);
@@ -26,7 +26,7 @@ export class BookService implements IbooksRepository {
     let book: Book | undefined = this.books.find((el) => {
       el.id === id;
     });
-    if (typeof book === 'undefined') throw new Error('not found book');
+    if (typeof book === 'undefined') throw Error('not found book');
     else return book;
   }
   getBooks(): Book[] {
@@ -60,10 +60,10 @@ export class BookService implements IbooksRepository {
     }
   }
   deleteBook(id: string): string {
-    let indexBook: number = this.books.findIndex((el) => {
-      el.id === id;
-    });
-    if (indexBook === -1) throw new Error('not found book');
+    let indexBook: number = this.books.findIndex((el) => 
+      el.id === id );
+    if (indexBook === -1) {//throw  Error('not found book');
+  }
     else {
       this.books.splice(indexBook, 1);
       return `The book with id ${id} deleted`;

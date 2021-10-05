@@ -24,9 +24,8 @@ describe('BookController', () => {
 
   it(`/GET books`, () => {
     return request(app.getHttpServer())
-      .get('/books')
+      .get('/book')
       .expect(200)
       .expect({ data: bookService.getBooks() });
   });
-  afterAll(async () => {await app.close();});
 });

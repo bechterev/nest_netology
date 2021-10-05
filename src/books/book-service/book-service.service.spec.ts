@@ -28,9 +28,10 @@ describe('BookService', () => {
   it('books length', ()=>{
     expect(service.getBooks().length>=0).toEqual(true);
   });
-  it('increment length', ()=>{
+  it('decrement length', ()=>{
     const startLen: number = service.getBooks().length;
-    const len:number = service.deleteBook('d').length;
+    service.deleteBook('d');
+    const len:number = service.getBooks().length;
     expect(startLen>=len
       ).toBeTruthy();
   })
